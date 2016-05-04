@@ -69,13 +69,16 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update -y
-    sudo apt-get install apache2 python python-pip python-virtualenv libapache2-mod-wsgi -y
-    sudo a2enmod wsgi
-    sudo service apache2 reload
-    sudo pip install Flask
-    sudo cp /vagrant/wsgi.conf /etc/apache2/sites-available/wsgi.conf
-    sudo a2ensite wsgi.conf
-    sudo service apache2 reload
+    if [ ! -f "/home/vagrant/.PROVISIONED" ]; then
+      sudo apt-get update -y
+      sudo apt-get install apache2 python python-pip python-virtualenv libapache2-mod-wsgi -y
+      sudo a2enmod wsgi
+      sudo service apache2 reload
+      sudo pip install Flask
+      sudo cp /vagrant/wsgi.conf /etc/apache2/sites-available/wsgi.conf
+      sudo a2ensite wsgi.conf
+      sudo service apache2 reload
+      touch /home/vagrant/.PROVISIONED
+    fi
   SHELL
 end
