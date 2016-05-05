@@ -71,7 +71,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     if [ ! -f "/home/vagrant/.PROVISIONED" ]; then
       sudo apt-get update -y
-      sudo apt-get install apache2 python python-dev python-pip python-virtualenv libapache2-mod-wsgi -y
+      sudo apt-get install apache2 python python-dev python-pip python-virtualenv libapache2-mod-wsgi sqlite3 libsqlite3-dev -y
       sudo a2enmod wsgi
       sudo service apache2 reload
       sudo pip install Flask
